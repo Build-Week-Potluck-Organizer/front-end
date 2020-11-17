@@ -2,12 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import PrivateRoute from "./components/PrivateRoute";
+import {Navigation} from "./components/Navigation";
 
 function App() {
   return (
     <div className="App">
-      <h1>Potluck Organizer</h1>
       <Router>
+        <Navigation/>
         <Switch>
           <Route exact path="/"/>
           <Route exact path="/login"/>
