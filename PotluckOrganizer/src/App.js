@@ -17,6 +17,7 @@ function App() {
           <PrivateRoute exact path="/rsvp"/>
         </Switch>
       </Router>
+      <hr></hr>
     </div>
   );
 }
