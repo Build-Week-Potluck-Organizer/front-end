@@ -2,9 +2,9 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
 
-export const Navigation = () => {
+export const Header = () => {
 
-    const Header = styled.div`
+    const Heading = styled.div`
         display: flex;
         justify-content: space-between;
     `;
@@ -27,7 +27,7 @@ export const Navigation = () => {
     `;
     
     return (
-        <Header>
+        <Heading>
             <Title>Potluck Organizer</Title>
             <NavBar>
                 <NavLink to='/login'>
@@ -41,6 +41,6 @@ export const Navigation = () => {
                     </Button>
                 </NavLink>
             </NavBar>
-        </Header>
+        </Heading>
     )
 }
