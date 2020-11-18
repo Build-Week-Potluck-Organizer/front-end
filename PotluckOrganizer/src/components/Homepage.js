@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
-
+import axios from 'axios';
+import {Link} from 'react-router-dom';
+import { NewEvent } from './NewEvent';
 
 const Break = styled.hr`
     width: 75%;
@@ -19,10 +21,22 @@ const Flex = styled.div`
 `;
 
 export const Homepage = () => {
+
+    useEffect(() => {
+        axios
+            .get(`https://build-week-potluck-organizer.herokuapp.com//api/users/1/events`)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
     return (
         <div>
             <h2>Welcome, username!</h2>
-            <button>Create an event</button>
+            <Link to='/newevent'><button>Create an event</button></Link>
             <Header3>Your Events</Header3>
             <Flex>
                 <span>Raine's Amazing Birthday Party </span><span>date</span>

@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
 
 export const NewEvent = () => {
-    const [form, setForm] = useState({
-        
-        });
-
 
     return (
         <div>
