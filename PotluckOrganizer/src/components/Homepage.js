@@ -8,14 +8,14 @@ const Break = styled.hr`
 `;
 
 const Header3 = styled.h3`
-    margin-right: 60%;
+    margin-right: 50%;
 `;
 
 const Flex = styled.div`
     width: 60%;
     display: flex;
     justify-content: space-evenly;
-    margin-left: 15%;
+    margin-left: 20%;
 `;
 
 export const Homepage = () => {
