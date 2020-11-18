@@ -11,20 +11,17 @@ import Login from "./components/Login";
 function App() {
   return (
     <div className='App'>
-      <h1>Potluck Organizer</h1>
       <Router>
         <Header/>
+        <hr></hr>
         <Switch>
           <Route exact path='/' />
-          <Route exact path='/login'>
-            <Login />
-          </Route>
-          <PrivateRoute exact path='/homepage' />
-          <PrivateRoute exact path='/newevent' />
-          <PrivateRoute exact path='/rsvp' />
+          <Route exact path='/login' component={Login}/>
+          <Route exact path='/homepage' />
+          <Route exact path='/newevent' />
+          <Route exact path='/rsvp' />
         </Switch>
       </Router>
-      <hr></hr>
     </div>
   );
 }
