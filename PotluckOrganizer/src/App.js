@@ -7,7 +7,10 @@ import {Header} from "./components/Header";
 
 
 import Login from "./components/Login";
+
+import {Register} from './components/Register';
 import { Homepage } from "./components/Homepage";
+
 
 function App() {
   return (
@@ -18,7 +21,8 @@ function App() {
         <Switch>
           <Route exact path='/' />
           <Route exact path='/login' component={Login}/>
-          <Route exact path='/homepage' component={Homepage}/>
+          <Route exact path='/register' component={Register}/>
+          <Route exact path='/homepage' />
           <Route exact path='/newevent' />
           <Route exact path='/rsvp' />
         </Switch>
