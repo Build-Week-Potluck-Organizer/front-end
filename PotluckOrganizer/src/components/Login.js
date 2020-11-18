@@ -58,6 +58,7 @@ const Login = () => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setFormState({ ...formState, [e.target.name]: value });
+    console.log(formState)
   };
 
   const [postedData, setPostedData] = useState([]); //place to hold the data coming back from the server
