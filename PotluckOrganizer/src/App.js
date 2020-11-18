@@ -2,6 +2,10 @@ import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
+
+import {Header} from "./components/Header";
+
+
 import Login from "./components/Login";
 
 function App() {
@@ -9,6 +13,7 @@ function App() {
     <div className='App'>
       <h1>Potluck Organizer</h1>
       <Router>
+        <Header/>
         <Switch>
           <Route exact path='/' />
           <Route exact path='/login'>
@@ -19,6 +24,7 @@ function App() {
           <PrivateRoute exact path='/rsvp' />
         </Switch>
       </Router>
+      <hr></hr>
     </div>
   );
 }
