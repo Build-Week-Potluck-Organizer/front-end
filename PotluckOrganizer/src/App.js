@@ -7,7 +7,10 @@ import {Header} from "./components/Header";
 
 
 import Login from "./components/Login";
+
 import {Register} from './components/Register';
+import { Homepage } from "./components/Homepage";
+
 
 function App() {
   return (
