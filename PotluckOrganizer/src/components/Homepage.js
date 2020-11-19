@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-import { NewEvent } from './NewEvent';
 
 const Break = styled.hr`
     width: 75%;
@@ -69,8 +68,9 @@ export const Homepage = () => {
             
     }, []);
 
-    const Edit = () => {
-
+    const Delete = (el) => {
+        axios
+            .delete(``)
     }
 
     console.log(guestlists)
