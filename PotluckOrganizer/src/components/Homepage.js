@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import {UserContext} from "../App";
 
 const Break = styled.hr`
     width: 75%;
@@ -20,6 +21,8 @@ const Flex = styled.div`
 `;
 
 export const Homepage = () => {
+    const user = useContext(UserContext);
+    console.log(user)
 
     const [events, setEvents] = useState([]);
     const [number, setNumber] = useState();
@@ -30,7 +33,7 @@ export const Homepage = () => {
         axios
             .get(`https://build-week-potluck-organizer.herokuapp.com/api/users/1/events`)
             .then((res) => {
-                console.log(res)
+                console.log('use events', res)
                 console.log(res.data)
                 setEvents(
                     res.data
@@ -92,7 +95,7 @@ export const Homepage = () => {
             )})}
             <Break></Break>
             <Header3>Invitations</Header3>
-            {guestlists.map((el) => {
+            {/* {guestlists.map((el) => {
                 if (guestlists[el].username === events[0].username) {
                     return (<Flex>
                     <span>Event name </span><span>date</span>
@@ -100,7 +103,7 @@ export const Homepage = () => {
                 </Flex>)
                 }
             })
-               }
+               } */}
         </div>
     )
 };

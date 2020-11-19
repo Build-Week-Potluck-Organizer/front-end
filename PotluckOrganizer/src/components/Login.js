@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import * as yup from "yup";
+import {UserContext} from '../App';
 
 const formSchema = yup.object().shape({
   username: yup
@@ -12,6 +13,9 @@ const formSchema = yup.object().shape({
 });
 
 const Login = () => {
+
+  const {setLoggedIn, setUser} = useContext(UserContext);
+
   const [formState, setFormState] = useState({
     username: "",
     password: ""
@@ -55,6 +59,7 @@ const Login = () => {
   };
 
   const [postedData, setPostedData] = useState([]); //place to hold the data coming back from the server
+
   const submitForm = (e) => {
     e.preventDefault();
     console.log("Form submited!!");
@@ -62,8 +67,9 @@ const Login = () => {
       username: "",
       password: ""
     });
+
     axios
-      .post("https://reqres.in/api/users", formState)
+      .post("https://build-week-potluck-organizer.herokuapp.com/api/auth/login", formState)
       .then((res) => {
         console.log(res);
         // setPostedData(res.data);
