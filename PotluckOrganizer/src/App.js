@@ -22,10 +22,10 @@ function App() {
             <Route exact path='/' />
             <Route exact path='/login' component={Login}/>
             <Route exact path='/register' component={Register}/>
-            <Route exact path='/homepage' component={Homepage}/>
-            <Route exact path='/newevent' component={NewEvent}/>
-            <Route exact path='/editevent' component={EditEvent}/>
-            <Route exact path='/rsvp' />
+            <PrivateRoute exact path='/homepage' component={Homepage}/>
+            <PrivateRoute exact path='/newevent' component={NewEvent}/>
+            <PrivateRoute exact path='/editevent' component={EditEvent}/>
+            <PrivateRoute exact path='/rsvp' />
           </Switch>
         </Router>
       </div>
