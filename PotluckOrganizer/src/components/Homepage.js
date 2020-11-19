@@ -23,6 +23,9 @@ const Flex = styled.div`
 export const Homepage = () => {
 
     const [events, setEvents] = useState([]);
+    const [number, setNumber] = useState();
+    const [guestlists, setGuestlists] = useState([]);
+    const [allEvents, setAllEvents] = useState([])
 
     useEffect(() => {
         axios
@@ -36,8 +39,41 @@ export const Homepage = () => {
             })
             .catch(err => {
                 console.log(err)
-            })
-    }, [])
+            });
+
+            axios
+                .get(`https://build-week-potluck-organizer.herokuapp.com/api/events`)
+                .then((res) => {
+                    console.log(res.data)
+                    setNumber(
+                        res.data.length
+                    );
+                    setAllEvents(
+                        res.data
+                    )
+                });
+
+            for (let i = 0; i < number; i++) {
+                axios
+                .get(`https://build-week-potluck-organizer.herokuapp.com/api/events/${i}/guestlist`)
+                .then(res => {
+                    setGuestlists([
+                        ...guestlists,
+                        res.data
+                    ])
+                })
+                .catch(err => {
+                    console.log(err)
+                }) 
+            };
+            
+    }, []);
+
+    const Edit = () => {
+        
+    }
+
+    console.log(guestlists)
 
     return (
         <div>
@@ -56,10 +92,15 @@ export const Homepage = () => {
             )})}
             <Break></Break>
             <Header3>Invitations</Header3>
-            <Flex>
-                <span>Event name </span><span>date</span>
-                <button>RSVP</button>
-            </Flex>
+            {guestlists.map((el) => {
+                if (guestlists[el].username === events[0].username) {
+                    return (<Flex>
+                    <span>Event name </span><span>date</span>
+                    <button>RSVP</button>
+                </Flex>)
+                }
+            })
+               }
         </div>
     )
 };
