@@ -71,9 +71,15 @@ export const Homepage = () => {
             
     }, []);
 
-    const Delete = (el) => {
+    const Delete = (e) => {
         axios
-            .delete(``)
+            .delete(`https://build-week-potluck-organizer.herokuapp.com/api/events/${e.target.id}`)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     console.log(guestlists)
@@ -83,16 +89,18 @@ export const Homepage = () => {
             <h2>Welcome, username!</h2>
             <Link to='/newevent'><button>Create an event</button></Link>
             <Header3>Your Events</Header3>
-            {events.map((el) => {
+            {allEvents.map((el) => {
+                if (el.organizer_id === 1) {
                 return (
                     <Flex>
                         <span>{el.event_name}</span>
                         <div>
                             <Link to="/editevent"><button>edit</button></Link>
-                            <button>delete</button>
+                            <button id={el.event_id} onClick={Delete}>delete</button>
                         </div>
                     </Flex>
-            )})}
+            )}}
+            )}
             <Break></Break>
             <Header3>Invitations</Header3>
             {/* {guestlists.map((el) => {
