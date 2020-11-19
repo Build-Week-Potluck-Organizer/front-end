@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import {Register} from './components/Register';
 import { Homepage } from "./components/Homepage";
 import {NewEvent} from './components/NewEvent';
+import {EditEvent} from './components/EditEvent';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route exact path='/register' component={Register}/>
           <Route exact path='/homepage' component={Homepage}/>
           <Route exact path='/newevent' component={NewEvent}/>
+          <Route exact path='/editevent' component={EditEvent}/>
           <Route exact path='/rsvp' />
         </Switch>
       </Router>

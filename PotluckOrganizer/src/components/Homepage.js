@@ -70,7 +70,7 @@ export const Homepage = () => {
     }, []);
 
     const Edit = () => {
-        
+
     }
 
     console.log(guestlists)
@@ -85,7 +85,7 @@ export const Homepage = () => {
                     <Flex>
                         <span>{el.event_name}</span>
                         <div>
-                            <button>edit</button>
+                            <Link to="/editevent"><button>edit</button></Link>
                             <button>delete</button>
                         </div>
                     </Flex>

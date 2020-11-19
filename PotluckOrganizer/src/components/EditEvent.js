@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-export const NewEvent = () => {
-
+export const EditEvent = () => {
     return (
         <div>
-            <h2>Create a new event:</h2>
+            <h2>Change event:</h2>
             <form>
                 <label>
                     Event Name:
@@ -30,4 +29,4 @@ export const NewEvent = () => {
             </form>
         </div>
     )
-};
+}
