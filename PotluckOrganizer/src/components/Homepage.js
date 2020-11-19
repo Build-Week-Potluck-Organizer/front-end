@@ -29,7 +29,8 @@ export const Homepage = () => {
     const [guestlists, setGuestlists] = useState([]);
     const [allEvents, setAllEvents] = useState([])
 
-    useEffect(() => {
+    const getEvents = () => {
+        
         axios
             .get(`https://build-week-potluck-organizer.herokuapp.com/api/users/1/events`)
             .then((res) => {
@@ -68,14 +69,18 @@ export const Homepage = () => {
                     console.log(err)
                 }) 
             };
-            
-    }, []);
+        };
+
+    useEffect(() => {
+        getEvents()
+        }, []);
 
     const Delete = (e) => {
         axios
             .delete(`https://build-week-potluck-organizer.herokuapp.com/api/events/${e.target.id}`)
             .then(res => {
                 console.log(res)
+                getEvents()
             })
             .catch(err => {
                 console.log(err)
