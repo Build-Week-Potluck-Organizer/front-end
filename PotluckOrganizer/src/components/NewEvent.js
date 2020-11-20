@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useState, useContext} from 'react';
 import {UserContext} from '../App';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 
 export const NewEvent = () => {
     const {push} = useHistory();
@@ -21,8 +21,7 @@ export const NewEvent = () => {
         console.log(form)
     }
 
-    const Submit = (e) => {
-        e.preventDefault();
+    const Submit = () => {
         axios
             .post(`https://build-week-potluck-organizer.herokuapp.com/api/events/`, form)
             .then((res) => {
@@ -31,7 +30,7 @@ export const NewEvent = () => {
             .catch(err=> {
                 console.log(err)
             })
-            push('/homepage');
+        push('/homepage')
     }
 
 
@@ -67,7 +66,7 @@ export const NewEvent = () => {
                     ></input>
                 </label>
                 <br></br>
-                <button>Submit</button>
+                <button type="submit">Submit</button>
             </form>
         </div>
     )

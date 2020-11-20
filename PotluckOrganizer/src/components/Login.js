@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import * as yup from "yup";
 import {UserContext} from '../App';
+import {useHistory} from 'react-router-dom';
 
 const formSchema = yup.object().shape({
   username: yup
@@ -13,7 +14,7 @@ const formSchema = yup.object().shape({
 });
 
 const Login = () => {
-
+  const {push} = useHistory();
   const {setLoggedIn, setUser} = useContext(UserContext);
 
   const [formState, setFormState] = useState({
@@ -72,6 +73,8 @@ const Login = () => {
       .post("https://build-week-potluck-organizer.herokuapp.com/api/auth/login", formState)
       .then((res) => {
         console.log(res);
+        localStorage.setItem("token", res.data.token);
+        push('/homepage')
         // setPostedData(res.data);
       })
       .catch((err) => console.log(err));

@@ -1,32 +1,73 @@
-import React from 'react';
+import axios from 'axios';
+import React, {useState, useContext} from 'react';
+import {UserContext} from '../App';
+import {useHistory, Link} from 'react-router-dom';
 
 export const EditEvent = () => {
+    const {push} = useHistory();
+    const [form, setForm] = useState({
+        organizer_id: 1,
+        event_name: "",
+        date: "",
+        time: ""
+    }) 
+
+    const handleChanges = (e) => {
+        e.persist();
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        })
+        console.log(form)
+    }
+
+    const Submit = () => {
+        axios
+            .put(`https://build-week-potluck-organizer.herokuapp.com/api/events/`, form)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch(err=> {
+                console.log(err)
+            })
+        push('/homepage')
+    }
+
+
     return (
         <div>
-            <h2>Change event:</h2>
-            <form>
-                <label>
+            <h2>Edit event:</h2>
+            <form onSubmit={Submit}>
+                <label
+                >
                     Event Name:
-                    <input></input>
-                </label>
-                <br></br>
-                <label>
-                    Description:
-                    <input type='textbox'></input>
+                    <input
+                    name='event_name'
+                    id='event_name'
+                    onChange={handleChanges}
+                    ></input>
                 </label>
                 <br></br>
                 <label>
                     Date:
-                    <input></input>
+                    <input
+                        name='date'
+                        id='date'
+                        onChange={handleChanges}
+                    ></input>
                 </label>
                 <br></br>
                 <label>
                     Time:
-                    <input></input>
+                    <input
+                    name='time'
+                    id='time'
+                    onChange={handleChanges}
+                    ></input>
                 </label>
                 <br></br>
-                <button>Submit</button>
+                <button type="submit">Submit</button>
             </form>
         </div>
     )
-}
+};

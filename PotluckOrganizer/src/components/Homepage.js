@@ -30,9 +30,8 @@ export const Homepage = () => {
     const [allEvents, setAllEvents] = useState([])
 
     const getEvents = () => {
-        
         axios
-            .get(`https://build-week-potluck-organizer.herokuapp.com/api/users/1/events`)
+            .get(`https://build-week-potluck-organizer.herokuapp.com/api/users/7/events`)
             .then((res) => {
                 console.log('use events', res)
                 console.log(res.data)

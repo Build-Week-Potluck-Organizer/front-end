@@ -1,12 +1,14 @@
 import React, {useState, useContext} from 'react';
 import axios from 'axios';
 import {UserContext} from '../App';
+import {useHistory} from 'react-router-dom';
 
 
 export const Register = () => {
+    const {push} = useHistory();
     const [form, setForm] = useState({
         username: "",
-        password: ""
+        password: "",
     });
 
     const handleChanges = (e) => {
@@ -23,7 +25,9 @@ export const Register = () => {
         axios
             .post(`https://build-week-potluck-organizer.herokuapp.com/api/auth/register`, form)
             .then((res) => {
-                console.log(res)
+                console.log('register', res)
+                push('/login')
+
             })
             .catch((err)=> {
                 console.log(err)
@@ -41,9 +45,10 @@ export const Register = () => {
                     id='username'
                     name='username'
                     onChange={handleChanges}
-                    value={form.username}
+                    value={form.usename}
                     ></input>
                 </label>
+                <br></br>
                 <br></br>
                 <label htmlFor="password">
                     Password:
