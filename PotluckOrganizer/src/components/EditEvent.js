@@ -7,7 +7,6 @@ export const EditEvent = () => {
     const {user} = useContext(UserContext);
     const {push} = useHistory();
     const [form, setForm] = useState({
-        organizer_id: user.id,
         event_name: "",
         date: "",
         time: ""

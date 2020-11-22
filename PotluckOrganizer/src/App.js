@@ -18,21 +18,21 @@ function App() {
   return (
   
       <div className='App'>
+        <UserContext.Provider value={{user, setUser, loggedIn, setLoggedIn}}>
         <Router>
           <Header/>
           <hr></hr>
-          <UserContext.Provider value={{user, setUser, loggedIn, setLoggedIn}}>
           <Switch>
             <Route exact path='/' />
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
-            <PrivateRoute path='/homepage' component={Homepage}/>
+            {/* <PrivateRoute path='/homepage' component={Homepage}/>
             <PrivateRoute path='/newevent' component={NewEvent}/>
             <PrivateRoute path='/editevent' component={EditEvent}/>
-            <PrivateRoute path='/rsvp' />
+            <PrivateRoute path='/rsvp' /> */}
           </Switch>
-          </UserContext.Provider>
         </Router>
+        </UserContext.Provider>
       </div>
   );
 }

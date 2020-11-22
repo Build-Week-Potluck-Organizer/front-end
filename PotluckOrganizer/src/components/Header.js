@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
+import {UserContext} from '../context/UserContext';
 
-export const Header = () => {
-
-    const Heading = styled.div`
+const Heading = styled.div`
         display: flex;
         justify-content: space-between;
     `;
@@ -25,22 +24,36 @@ export const Header = () => {
         width: 75px;
         height: 30px;
     `;
+
+export const Header = () => {
+
+    const {loggedIn} = useContext(UserContext);
     
     return (
         <Heading>
             <Title>Potluck Organizer</Title>
-            <NavBar>
-                <NavLink to='/login'>
-                    <Button>
-                        Login
+                {loggedIn ? 
+                    <NavBar>
+                        <NavLink to='/login'>
+                            <Button>
+                                Log out
+                            </Button>
+                        </NavLink>
+                    </NavBar> :
+                    <NavBar>
+                        <NavLink to='/login'>
+                            <Button>
+                                Login
+                            </Button>
+                        </NavLink>
+                    <NavLink to='/register'>
+                         <Button>
+                            Register
                         </Button>
                     </NavLink>
-                <NavLink to='/register'>
-                    <Button>
-                        Register
-                    </Button>
-                </NavLink>
-            </NavBar>
+                </NavBar>
+    
+            }
         </Heading>
     )
 }

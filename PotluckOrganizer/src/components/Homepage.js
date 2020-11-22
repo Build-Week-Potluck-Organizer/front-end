@@ -23,23 +23,25 @@ const Flex = styled.div`
 
 export const Homepage = () => {
     const {user, setUser, loggedIn} = useContext(UserContext);
-    const [events, setEvents] = useState();
+    const [events, setEvents] = useState({
+        
+    });
 
     console.log('user', user)
     console.log('loggedIn', loggedIn)
     
-    // useEffect(() => {
-    //     axiosWithAuth()
-    //         .get(`/users/${user.id}/events`)
-    //         .then(res => {
-    //             console.log('events', res)
-    //             setEvents(res.data)
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
+    useEffect(() => {
+        axiosWithAuth()
+            .get(`/users/${user.id}/events`)
+            .then(res => {
+                console.log('events', res)
+                setEvents(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
 
-    // }, [user.id])
+    }, [])
 
 
         // axiosWithAuth()
