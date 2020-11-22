@@ -52,8 +52,6 @@ export const Header = () => {
                         </Button>
                     </NavLink>
                 </NavBar>
-    
-            }
+                }
         </Heading>
-    )
-}
+    )};

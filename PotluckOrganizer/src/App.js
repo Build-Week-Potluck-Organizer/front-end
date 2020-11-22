@@ -16,9 +16,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
-  
-      <div className='App'>
         <UserContext.Provider value={{user, setUser, loggedIn, setLoggedIn}}>
+        <div className='App'>
         <Router>
           <Header/>
           <hr></hr>
@@ -26,14 +25,14 @@ function App() {
             <Route exact path='/' />
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
-            {/* <PrivateRoute path='/homepage' component={Homepage}/>
+            <PrivateRoute path='/homepage' component={Homepage}/>
             <PrivateRoute path='/newevent' component={NewEvent}/>
-            <PrivateRoute path='/editevent' component={EditEvent}/>
+            {/* <PrivateRoute path='/editevent' component={EditEvent}/>
             <PrivateRoute path='/rsvp' /> */}
           </Switch>
         </Router>
-        </UserContext.Provider>
       </div>
+      </UserContext.Provider>
   );
 }
 
