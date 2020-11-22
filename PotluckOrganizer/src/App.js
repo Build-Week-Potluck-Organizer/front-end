@@ -10,6 +10,7 @@ import {NewEvent} from './components/NewEvent';
 import {EditEvent} from './components/EditEvent';
 import {UserContext} from './context/UserContext';
 
+
 function App() {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);

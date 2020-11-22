@@ -3,6 +3,7 @@ import axios from "axios";
 import * as yup from "yup";
 import {UserContext} from '../context/UserContext';
 import {useHistory} from 'react-router-dom';
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const formSchema = yup.object().shape({
   username: yup
@@ -16,7 +17,7 @@ const formSchema = yup.object().shape({
 
 const Login = () => {
   const {push} = useHistory();
-  const {user, setUser} = useContext(UserContext);
+  const {user, setUser, setLoggedIn} = useContext(UserContext);
 
   const [formState, setFormState] = useState({
     username: "",
@@ -67,7 +68,11 @@ const Login = () => {
       .then((res) => {
         localStorage.setItem("token", res.data.token)
         console.log('login res', res)
-        setUser("heather")
+        setUser({
+          id: res.data.id,
+          username: res.data.username
+        });
+        setLoggedIn(true);
         push('/homepage')
       })
       .catch((err) => console.log(err));

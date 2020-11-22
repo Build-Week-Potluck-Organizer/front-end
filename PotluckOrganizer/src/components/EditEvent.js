@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, {useState, useContext} from 'react';
-import {UserContext} from '../App';
+import {UserContext} from '../context/UserContext';
 import {useHistory, Link} from 'react-router-dom';
 
 export const EditEvent = () => {
+    const {user} = useContext(UserContext);
     const {push} = useHistory();
     const [form, setForm] = useState({
+        organizer_id: user.id,
         event_name: "",
         date: "",
         time: ""
@@ -20,17 +22,17 @@ export const EditEvent = () => {
         console.log(form)
     }
 
-    const Submit = () => {
+    const Submit = (e) => {
+        e.preventDefault()
+        axios
+            .put(`/events/`, form)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch(err=> {
+                console.log(err)
+            })
         push('/homepage')
-        // axios
-        //     .put(`/events/`, form)
-        //     .then((res) => {
-        //         console.log(res)
-        //     })
-        //     .catch(err=> {
-        //         console.log(err)
-        //     })
-        // push('/homepage')
     }
 
 

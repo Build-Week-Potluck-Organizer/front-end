@@ -5,8 +5,10 @@ import {useHistory, Link} from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const NewEvent = () => {
+    const {user, loggedIn} = useContext(UserContext);
     const {push} = useHistory();
     const [form, setForm] = useState({
+        organizer_id: user.id,
         event_name: "",
         date: "",
         time: ""
@@ -21,7 +23,8 @@ export const NewEvent = () => {
         console.log(form)
     }
 
-    const Submit = () => {
+    const Submit = (e) => {
+        e.preventDefault()
         axiosWithAuth()
             .post(`/events`, form)
             .then((res) => {
@@ -37,7 +40,7 @@ export const NewEvent = () => {
 
     return (
         <div>
-            <h2>Create a new event:</h2>
+            <h2>{user.username}, create a new event:</h2>
             <form onSubmit={Submit}>
                 <label
                 >
