@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import * as yup from "yup";
-import {UserContext} from '../App';
+import {UserContext} from '../context/UserContext';
 import {useHistory} from 'react-router-dom';
 
 const formSchema = yup.object().shape({
   username: yup
     .string()
-    .required("Name is required.")
-    .min(2, "Name must be at least 2 characters long.")
-    .matches(/[a-zA-z][a-zA-Z]{2,}/, "Name must be letters only."),
+      .required("Name is required.")
+      .min(2, "Name must be at least 2 characters long.")
+      .matches(/[a-zA-z][a-zA-Z]{2,}/, "Name must be letters only."),
   password: yup.string().required("Must input password.")
 });
 
+
 const Login = () => {
   const {push} = useHistory();
-  const {setLoggedIn, setUser} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const [formState, setFormState] = useState({
     username: "",
@@ -44,6 +45,7 @@ const Login = () => {
   };
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
+
   useEffect(() => {
     formSchema.isValid(formState).then((valid) => {
       setButtonDisabled(!valid);
@@ -56,35 +58,24 @@ const Login = () => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setFormState({ ...formState, [e.target.name]: value });
-    console.log(formState)
   };
-
-  const [postedData, setPostedData] = useState([]); //place to hold the data coming back from the server
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log("Form submited!!");
-    setFormState({
-      username: "",
-      password: ""
-    });
-
     axios
       .post("https://build-week-potluck-organizer.herokuapp.com/api/auth/login", formState)
       .then((res) => {
-        console.log(res);
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("token", res.data.token)
+        console.log('login res', res)
+        setUser("heather")
         push('/homepage')
-        // setPostedData(res.data);
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <>
+       <h3>Log in</h3>
       <form onSubmit={submitForm}>
-        <h3>Log in</h3>
-
         <label htmlFor='username'>
           <h4>Username</h4>
           {errorState.username.length > 0 ? <p>{errorState.username}</p> : null}

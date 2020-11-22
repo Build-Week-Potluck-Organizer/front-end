@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, {useState} from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute"
@@ -8,31 +8,30 @@ import {Register} from './components/Register';
 import { Homepage } from "./components/Homepage";
 import {NewEvent} from './components/NewEvent';
 import {EditEvent} from './components/EditEvent';
-
-export const UserContext = createContext();
-console.log(UserContext)
+import {UserContext} from './context/UserContext';
 
 function App() {
+  const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(1);
 
   return (
+  
       <div className='App'>
-      <UserContext.Provider value={user, setUser, loggedIn, setLoggedIn}>
         <Router>
           <Header/>
           <hr></hr>
+          <UserContext.Provider value={{user, setUser, loggedIn, setLoggedIn}}>
           <Switch>
             <Route exact path='/' />
-            <Route exact path='/login' component={Login}/>
-            <Route exact path='/register' component={Register}/>
-            <PrivateRoute exact path='/homepage' component={Homepage}/>
-            <PrivateRoute exact path='/newevent' component={NewEvent}/>
-            <PrivateRoute exact path='/editevent' component={EditEvent}/>
-            <PrivateRoute exact path='/rsvp' />
+            <Route path='/login' component={Login}/>
+            <Route path='/register' component={Register}/>
+            <PrivateRoute path='/homepage' component={Homepage}/>
+            <PrivateRoute path='/newevent' component={NewEvent}/>
+            <PrivateRoute path='/editevent' component={EditEvent}/>
+            <PrivateRoute path='/rsvp' />
           </Switch>
+          </UserContext.Provider>
         </Router>
-        </UserContext.Provider>
       </div>
   );
 }

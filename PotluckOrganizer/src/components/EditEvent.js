@@ -6,7 +6,6 @@ import {useHistory, Link} from 'react-router-dom';
 export const EditEvent = () => {
     const {push} = useHistory();
     const [form, setForm] = useState({
-        organizer_id: 1,
         event_name: "",
         date: "",
         time: ""
@@ -22,15 +21,16 @@ export const EditEvent = () => {
     }
 
     const Submit = () => {
-        axios
-            .put(`https://build-week-potluck-organizer.herokuapp.com/api/events/`, form)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch(err=> {
-                console.log(err)
-            })
         push('/homepage')
+        // axios
+        //     .put(`/events/`, form)
+        //     .then((res) => {
+        //         console.log(res)
+        //     })
+        //     .catch(err=> {
+        //         console.log(err)
+        //     })
+        // push('/homepage')
     }
 
 

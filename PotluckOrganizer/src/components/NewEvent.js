@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, {useState, useContext} from 'react';
-import {UserContext} from '../App';
+import {UserContext} from '../context/UserContext';
 import {useHistory, Link} from 'react-router-dom';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const NewEvent = () => {
     const {push} = useHistory();
     const [form, setForm] = useState({
-        organizer_id: 1,
         event_name: "",
         date: "",
         time: ""
@@ -22,10 +22,11 @@ export const NewEvent = () => {
     }
 
     const Submit = () => {
-        axios
-            .post(`https://build-week-potluck-organizer.herokuapp.com/api/events/`, form)
+        axiosWithAuth()
+            .post(`/events`, form)
             .then((res) => {
-                console.log(res)
+                console.log('created an event', res)
+                push('/homepage')
             })
             .catch(err=> {
                 console.log(err)

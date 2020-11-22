@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import {Link} from 'react-router-dom';
-import {UserContext} from "../App";
+import {UserContext} from "../context/UserContext";
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const Break = styled.hr`
     width: 75%;
@@ -21,101 +21,58 @@ const Flex = styled.div`
 `;
 
 export const Homepage = () => {
-    const user = useContext(UserContext);
-    console.log(user)
+    const {user, setUser} = useContext(UserContext);
+    const [events, setEvents] = useState();
 
-    const [events, setEvents] = useState([]);
-    const [number, setNumber] = useState();
-    const [guestlists, setGuestlists] = useState([]);
-    const [allEvents, setAllEvents] = useState([])
+    // useEffect(() => {
+    //     axiosWithAuth()
+    //     .get(`/users/${user.user_id}`)
+    //     .then(res => {
+    //        console.log(res)
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //     });
 
-    const getEvents = () => {
-        axios
-            .get(`https://build-week-potluck-organizer.herokuapp.com/api/users/7/events`)
-            .then((res) => {
-                console.log('use events', res)
-                console.log(res.data)
-                setEvents(
-                    res.data
-                );
-            })
-            .catch(err => {
-                console.log(err)
-            });
+    //     axiosWithAuth()
+    //         .get(`/users/${user.user_id}/events`)
+    //         .then(res => {
+    //             console.log('events', res)
+    //             setEvents(res.data)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
 
-            axios
-                .get(`https://build-week-potluck-organizer.herokuapp.com/api/events`)
-                .then((res) => {
-                    console.log(res.data)
-                    setNumber(
-                        res.data.length
-                    );
-                    setAllEvents(
-                        res.data
-                    )
-                });
-
-            for (let i = 0; i < number; i++) {
-                axios
-                .get(`https://build-week-potluck-organizer.herokuapp.com/api/events/${i}/guestlist`)
-                .then(res => {
-                    setGuestlists([
-                        ...guestlists,
-                        res.data
-                    ])
-                })
-                .catch(err => {
-                    console.log(err)
-                }) 
-            };
-        };
-
-    useEffect(() => {
-        getEvents()
-        }, []);
-
-    const Delete = (e) => {
-        axios
-            .delete(`https://build-week-potluck-organizer.herokuapp.com/api/events/${e.target.id}`)
-            .then(res => {
-                console.log(res)
-                getEvents()
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-
-    console.log(guestlists)
+    // }, [])
+        
+    // const Delete = (e) => {
+    //     axiosWithAuth()
+    //         .delete(`/events/${e.target.id}`)
+    //         .then(res => {
+    //             console.log('delete', res)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
 
     return (
         <div>
-            <h2>Welcome, username!</h2>
+            <h2>Welcome, {user}!</h2>
             <Link to='/newevent'><button>Create an event</button></Link>
             <Header3>Your Events</Header3>
-            {allEvents.map((el) => {
-                if (el.organizer_id === 1) {
-                return (
-                    <Flex>
-                        <span>{el.event_name}</span>
-                        <div>
-                            <Link to="/editevent"><button>edit</button></Link>
-                            <button id={el.event_id} onClick={Delete}>delete</button>
-                        </div>
-                    </Flex>
-            )}}
-            )}
-            <Break></Break>
-            <Header3>Invitations</Header3>
-            {/* {guestlists.map((el) => {
-                if (guestlists[el].username === events[0].username) {
-                    return (<Flex>
-                    <span>Event name </span><span>date</span>
-                    <button>RSVP</button>
-                </Flex>)
-                }
-            })
-               } */}
+            {/* {events.length > 1 ? 
+                events.map((el) => {
+                    return (
+                        <Flex>
+                            <p>{el.event_name}</p>
+                            <Link to='/editevent'><button>Edit</button></Link>
+                            <button onClick={Delete} id={el.event_id}>Delete</button>
+                        </Flex>
+                    )
+                }) : <p>You have no events</p>
+        } */}
         </div>
     )
 };
