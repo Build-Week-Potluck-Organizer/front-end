@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {UserContext} from "../context/UserContext";
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import {axios} from 'axios'
 import {useHistory} from 'react-router-dom';
 
 const Break = styled.hr`
@@ -37,23 +36,64 @@ const FlexButtons = styled.div`
 
 export const Homepage = () => {
     const {push} = useHistory();
-    const {user, loggedIn} = useContext(UserContext);
-    const [events, setEvents] = useState({});
+    const {user, setUser} = useContext(UserContext);
+    const [userEvents, setUserEvents] = useState({});
+    const [allEvents, setAllEvents] = useState({});
 
     console.log('user', user)
     
     useEffect(() => {
+
+
+    //       axiosWithAuth()
+    //         .get(`/users/${parseInt(localStorage.getItem("id"))}`)
+    //         .then(res => {
+    //             console.log("user res", res)
+    //             console.log(user.id)
+    //         })
+
         axiosWithAuth()
-            .get(`/users/${user.id}/events`)
+            .get(`https://build-week-potluck-organizer.herokuapp.com/api/users/${user.id}/events`)
             .then(res => {
                 console.log('events', res)
-                setEvents(res.data)
+                setUserEvents(res.data)
             })
             .catch(err => {
                 console.log(err)
             })
 
+    //     axiosWithAuth()
+    //         .get(`/events/`)
+    //         .then((res) => {
+    //             console.log(res.data)
+    //             setAllEvents(res.data)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         });
+
+    //         // {setUserEvents(allEvents.filter((el) => {
+    //         //     return el.organzier_id === user.id
+    //         // }))}
+
+    //         // console.log('userevents', userEvents);
+    //         console.log('allevents', allEvents);
+
     }, [])
+
+    // console.log('user', user)
+
+    // axiosWithAuth()
+    //         .get(`/events/`)
+    //         .then((res) => {
+    //             console.log('all events', res)
+    //             setAllEvents([res.data])
+    //             console.log('allevents', allEvents)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         });
+
 
 
         // axiosWithAuth()
@@ -79,14 +119,13 @@ export const Homepage = () => {
 
     return (
         <>
-        {!loggedIn ? push('/login'):
+        {!localStorage.getItem("token") ? push('/login'):
         <div>
             <h2>Welcome, {user.username}!</h2>
             <Link to='/newevent'><button>Create an event</button></Link>
             <Header3>Your Events</Header3>
-            {events.length > 1 ? 
-                events.map((el) => {
-                    return (
+            {userEvents.length ? userEvents.map((el) => {
+                return (
                         <Flex>
                             <p>{el.event_name}</p>
                             <FlexButtons>
@@ -96,8 +135,9 @@ export const Homepage = () => {
                             
                         </Flex>
                     )
-                }) : <p>You have no events</p>
-        }
+        }) : (<div>You have no events.</div>)
+    
+    }
         <Break></Break>
         </div>}
         </>

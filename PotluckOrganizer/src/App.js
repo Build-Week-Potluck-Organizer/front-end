@@ -12,12 +12,11 @@ import {UserContext} from './context/UserContext';
 
 
 function App() {
-  const [user, setUser] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState();
 
   return (
-        <UserContext.Provider value={{user, setUser, loggedIn, setLoggedIn}}>
         <div className='App'>
+        <UserContext.Provider value={{user, setUser}}>
         <Router>
           <Header/>
           <hr></hr>
@@ -26,13 +25,13 @@ function App() {
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
             <PrivateRoute path='/homepage' component={Homepage}/>
-            <PrivateRoute path='/newevent' component={NewEvent}/>
+            {/* <PrivateRoute path='/newevent' component={NewEvent}/> */}
             {/* <PrivateRoute path='/editevent' component={EditEvent}/>
             <PrivateRoute path='/rsvp' /> */}
           </Switch>
         </Router>
+        </UserContext.Provider>
       </div>
-      </UserContext.Provider>
   );
 }
 

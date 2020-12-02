@@ -5,13 +5,13 @@ import {useHistory, Link} from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const NewEvent = () => {
-    const {user, setUser, loggedIn} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const {push} = useHistory();
     const [form, setForm] = useState({
-        organizer_id: user.id,
-        event_name: "",
-        date: "",
-        time: ""
+        // organizer_id: user.id,
+        // event_name: "",
+        // date: "",
+        // time: ""
     }) 
 
     const handleChanges = (e) => {
@@ -23,17 +23,19 @@ export const NewEvent = () => {
         console.log(form)
     }
 
+    console.log(user)
+
     const Submit = (e) => {
         e.preventDefault()
-        axiosWithAuth()
-            .post(`/events`, form)
-            .then((res) => {
-                console.log('created an event', res)
-                push('/homepage')
-            })
-            .catch(err=> {
-                console.log(err)
-            })
+        // axiosWithAuth()
+        //     .post(`/events`, form)
+        //     .then((res) => {
+        //         console.log('created an event', res)
+        //         push('/homepage')
+        //     })
+        //     .catch(err=> {
+        //         console.log(err)
+        //     })
         push('/homepage')
     }
 

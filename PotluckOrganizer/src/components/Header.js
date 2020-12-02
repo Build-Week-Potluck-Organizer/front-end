@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
-import {UserContext} from '../context/UserContext';
 
 const Heading = styled.div`
         display: flex;
@@ -26,16 +25,16 @@ const Heading = styled.div`
     `;
 
 export const Header = () => {
-
-    const {loggedIn} = useContext(UserContext);
     
     return (
         <Heading>
             <Title>Potluck Organizer</Title>
-                {loggedIn ? 
+                {localStorage.getItem("token") ? 
                     <NavBar>
                         <NavLink to='/login'>
-                            <Button>
+                            <Button onClick = {() => {
+                                localStorage.clear()
+                            }}>
                                 Log out
                             </Button>
                         </NavLink>
