@@ -12,20 +12,23 @@ import {UserContext} from './context/UserContext';
 
 
 function App() {
-  const [user, setUser] = useState();
+  const user =({
+    id: parseInt(localStorage.getItem("id")),
+    username: localStorage.getItem("username")
+  })
 
   return (
         <div className='App'>
-        <UserContext.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{}}>
         <Router>
           <Header/>
           <hr></hr>
           <Switch>
             <Route exact path='/' />
-            <Route path='/login' component={Login}/>
+            <Route path='/login' component={Login} user={user}/>
             <Route path='/register' component={Register}/>
-            <PrivateRoute path='/homepage' component={Homepage}/>
-            {/* <PrivateRoute path='/newevent' component={NewEvent}/> */}
+            <PrivateRoute path='/homepage' component={Homepage} user={user}/>
+            <PrivateRoute path='/newevent' component={NewEvent} user={user}/>
             {/* <PrivateRoute path='/editevent' component={EditEvent}/>
             <PrivateRoute path='/rsvp' /> */}
           </Switch>

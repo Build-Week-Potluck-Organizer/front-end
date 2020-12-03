@@ -17,8 +17,6 @@ const formSchema = yup.object().shape({
 
 const Login = () => {
   const {push} = useHistory();
-  const {user, setUser} = useContext(UserContext);
-  const {resData, setResData} = useState({})
 
   const [formState, setFormState] = useState({
     username: "",
@@ -68,13 +66,8 @@ const Login = () => {
       .post(`https://build-week-potluck-organizer.herokuapp.com/api/auth/login`, formState)
       .then((res) => {
         localStorage.setItem("token", res.data.token)
-        // localStorage.setItem("username", res.data.username)
-        // localStorage.setItem("id", res.data.id)
-        console.log('login res', res)
-        setUser({
-          id: res.data.id,
-          username: res.data.username
-        })
+        localStorage.setItem("id", res.data.id)
+        localStorage.setItem("username", res.data.username)
         push('/homepage')
       })
       .catch((err) => console.log(err));

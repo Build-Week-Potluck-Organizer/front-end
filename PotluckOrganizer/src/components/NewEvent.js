@@ -8,10 +8,10 @@ export const NewEvent = () => {
     const {user} = useContext(UserContext);
     const {push} = useHistory();
     const [form, setForm] = useState({
-        // organizer_id: user.id,
-        // event_name: "",
-        // date: "",
-        // time: ""
+        organizer_id: user.id,
+        event_name: "",
+        date: "",
+        time: ""
     }) 
 
     const handleChanges = (e) => {
@@ -27,15 +27,15 @@ export const NewEvent = () => {
 
     const Submit = (e) => {
         e.preventDefault()
-        // axiosWithAuth()
-        //     .post(`/events`, form)
-        //     .then((res) => {
-        //         console.log('created an event', res)
-        //         push('/homepage')
-        //     })
-        //     .catch(err=> {
-        //         console.log(err)
-        //     })
+        axiosWithAuth()
+            .post(`https://build-week-potluck-organizer.herokuapp.com/api/events`, form)
+            .then((res) => {
+                console.log('created an event', res)
+                push('/homepage')
+            })
+            .catch(err=> {
+                console.log(err)
+            })
         push('/homepage')
     }
 

@@ -34,33 +34,24 @@ const FlexButtons = styled.div`
     margin-top: 15px;
 `;
 
-export const Homepage = () => {
+export const Homepage = ({user}) => {
     const {push} = useHistory();
-    const {user, setUser} = useContext(UserContext);
-    const [userEvents, setUserEvents] = useState({});
+    const [userEvents, setUserEvents] = useState();
     const [allEvents, setAllEvents] = useState({});
-
-    console.log('user', user)
     
     useEffect(() => {
-
-
-    //       axiosWithAuth()
-    //         .get(`/users/${parseInt(localStorage.getItem("id"))}`)
-    //         .then(res => {
-    //             console.log("user res", res)
-    //             console.log(user.id)
-    //         })
 
         axiosWithAuth()
             .get(`https://build-week-potluck-organizer.herokuapp.com/api/users/${user.id}/events`)
             .then(res => {
                 console.log('events', res)
                 setUserEvents(res.data)
+                console.log("userevents", userEvents)
             })
             .catch(err => {
                 console.log(err)
             })
+
 
     //     axiosWithAuth()
     //         .get(`/events/`)
@@ -124,7 +115,7 @@ export const Homepage = () => {
             <h2>Welcome, {user.username}!</h2>
             <Link to='/newevent'><button>Create an event</button></Link>
             <Header3>Your Events</Header3>
-            {userEvents.length ? userEvents.map((el) => {
+            {/* {userEvents.map((el) => {
                 return (
                         <Flex>
                             <p>{el.event_name}</p>
@@ -135,9 +126,9 @@ export const Homepage = () => {
                             
                         </Flex>
                     )
-        }) : (<div>You have no events.</div>)
+        }) 
     
-    }
+    } */}
         <Break></Break>
         </div>}
         </>
