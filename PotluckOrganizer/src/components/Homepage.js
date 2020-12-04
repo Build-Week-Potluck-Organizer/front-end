@@ -51,13 +51,18 @@ export const Homepage = () => {
             .catch((err) => {
                 console.log(err)
             })
-            console.log('events', events)
     }, [])
     //there is no endpoint for a user's events so I had to extract the specifics user's event from all events
 
     const Delete = (e) => {
         axiosWithAuth()
-            .delete(`/api/events/:id`)
+            .delete(`/api/events/${e.target.id}`)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     return (
@@ -74,7 +79,7 @@ export const Homepage = () => {
                                 <p>{el.event_name}</p>
                                 <FlexButtons>
                                     <Button>Edit</Button>
-                                    <Button onClick={Delete}>Delete</Button>
+                                    <Button id={el.event_id} onClick={Delete}>Delete</Button>
                                 </FlexButtons>
     
                             </Flex>
