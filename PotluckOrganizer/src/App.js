@@ -24,9 +24,9 @@ function App() {
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
             <PrivateRoute path='/homepage' component={Homepage}/>
-            {/* <PrivateRoute path='/newevent' component={NewEvent}/>
-            <PrivateRoute path='/editevent' component={EditEvent}/> */}
-            {/* <PrivateRoute path='/rsvp' /> */}
+            <PrivateRoute path='/newevent' component={NewEvent}/>
+            <PrivateRoute path='/editevent' component={EditEvent}/>
+            <PrivateRoute path='/rsvp' />
           </Switch>
         </Router>
         </UserContext.Provider>

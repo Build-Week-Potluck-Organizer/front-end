@@ -35,25 +35,31 @@ const FlexButtons = styled.div`
 `;
 
 export const Homepage = () => {
-    const {push} = useHistory();
     const user = {
-        id: parseInt(localStorage.getItem('id')),
-        username: localStorage.getItem('username')
-    }
-    const [events, setEvents] = useState()
+        id: parseInt(localStorage.getItem("id")),
+        username: localStorage.getItem("username")
+      }
+    const {push} = useHistory();
+    const [allEvents, setAllEvents] = useState()
 
     useEffect(() => {
         axiosWithAuth()
-            .get(`/api/users/${user.id}/events`)
+            .get(`/api/events`)
             .then((res) => {
-                console.log(res.data)
-                setEvents(res.data)
+                setAllEvents(res.data)
             })
             .catch((err) => {
                 console.log(err)
             })
+            console.log('events', events)
     }, [])
-    console.log("events", events)
+    //there is no endpoint for a user's events so I had to extract the specifics user's event from all events
+
+    const Delete = (e) => {
+        axiosWithAuth()
+            .delete(`/api/events/:id`)
+    }
+
     return (
         <>
         {!localStorage.getItem("token") ? push('/login'):
@@ -61,9 +67,20 @@ export const Homepage = () => {
             <h2>Welcome, {user.username}!</h2>
             <Link to='/newevent'><button>Create an event</button></Link>
             <Header3>Your Events</Header3>
-            {events ? events.map((el) => {
-                return <p>{el.event_name}</p>
-            }) : <p>you have no events</p>}
+                {allEvents ? allEvents.map((el) => {
+                    if (el.organizer_id === user.id) {
+                        return (
+                            <Flex>
+                                <p>{el.event_name}</p>
+                                <FlexButtons>
+                                    <Button>Edit</Button>
+                                    <Button onClick={Delete}>Delete</Button>
+                                </FlexButtons>
+    
+                            </Flex>
+                        )
+                    }
+                }) : <p>You have no events.</p>}
         <Break></Break>
         </div>}
         </>
