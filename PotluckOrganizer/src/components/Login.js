@@ -65,6 +65,7 @@ const Login = () => {
     axiosWithAuth()
       .post(`https://build-week-potluck-organizer.herokuapp.com/api/auth/login`, formState)
       .then((res) => {
+        console.log(res.data)
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("id", res.data.id)
         localStorage.setItem("username", res.data.username)

@@ -5,7 +5,10 @@ import {useHistory, Link} from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const NewEvent = () => {
-    const {user} = useContext(UserContext);
+    const user = {
+        id: parseInt(localStorage.getItem("id")),
+        username: localStorage.getItem("username")
+    }
     const {push} = useHistory();
     const [form, setForm] = useState({
         organizer_id: user.id,

@@ -4,7 +4,10 @@ import {UserContext} from '../context/UserContext';
 import {useHistory, Link} from 'react-router-dom';
 
 export const EditEvent = () => {
-    const {user} = useContext(UserContext);
+    const user = {
+        id: parseInt(localStorage.getItem("id")),
+        username: localStorage.getItem("username")
+    }
     const {push} = useHistory();
     const [form, setForm] = useState({
         event_name: "",
