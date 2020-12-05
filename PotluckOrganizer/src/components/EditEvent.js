@@ -14,9 +14,17 @@ export const EditEvent = () => {
     const {push} = useHistory();
     const [form, setForm] = useState({
         event_name: "",
+        description: "",
         date: "",
         time: ""
-    }) 
+    })
+
+    const [guest, setGuest] = useState({
+              "guest_id": 0,
+              "username": "",
+              "event_id": event,
+              "attending": false
+            })
 
     const handleChanges = (e) => {
         e.persist();
@@ -40,6 +48,27 @@ export const EditEvent = () => {
         push('/homepage')
     }
 
+    const handleGuestChanges = (e) => {
+        e.persist();
+        setGuest({
+            ...guest,
+            [e.target.name]: e.target.value
+        })
+        console.log(guest)
+    }
+
+    const AddGuest = (e) => {
+        e.preventDefault()
+        axiosWithAuth() 
+            .post(`/api/events/${event}/guestlist`, guest)
+            .then((res) => {
+                console.log("res", res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        push('/homepage')
+    }
 
     return (
         <div>
@@ -52,6 +81,15 @@ export const EditEvent = () => {
                     name='event_name'
                     id='event_name'
                     onChange={handleChanges}
+                    ></input>
+                </label>
+                <br></br>
+                <label>
+                    Description:
+                    <input type='textarea'
+                        name='description'
+                        id='description'
+                        onChange={handleChanges}
                     ></input>
                 </label>
                 <br></br>
@@ -74,7 +112,31 @@ export const EditEvent = () => {
                 </label>
                 <br></br>
                 <button type="submit">Submit</button>
+                <Link to="/homepage"><button>Cancel</button></Link>
             </form>
+
+            <h2>Invite a guest:</h2>
+                <form onSubmit={AddGuest}>
+                <label>
+                    Guest id:
+                    <input
+                        name='guest_id'
+                        id='guest_id'
+                        onChange={handleGuestChanges}
+                    ></input>
+                </label>
+                <br></br>
+                <label>
+                    Username:
+                    <input
+                        name='username'
+                        id='username'
+                        onChange={handleGuestChanges}
+                    ></input>
+                </label>
+                <br></br>
+                <button type="submit">Invite</button>
+                </form>
         </div>
     )
 };

@@ -12,8 +12,11 @@ import {EventContext} from './context/EventContext';
 
 
 function App() {
+  //using state to set and pass an event id with context
   const [event, setEvent] = useState()
+
   return (
+      //wrapping routes in a provider
         <div className='App'>
         <EventContext.Provider value={{event, setEvent}}>
         <Router>
