@@ -13,10 +13,10 @@ export const EditEvent = () => {
     console.log(event)
     const {push} = useHistory();
     const [form, setForm] = useState({
-        event_name: "",
-        description: "",
-        date: "",
-        time: ""
+        event_name: event.event_name,
+        description: event.description,
+        date: event.date,
+        time: event.time
     })
 
     const [guest, setGuest] = useState({

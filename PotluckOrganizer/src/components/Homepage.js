@@ -83,8 +83,6 @@ export const Homepage = () => {
         push('/editevent')
     }
 
-    console.log(allEvents)
-
     const Delete = (e) => {
         e.preventDefault()
         //delete endpoint returns the event being deleted, not all events without the deleted item
