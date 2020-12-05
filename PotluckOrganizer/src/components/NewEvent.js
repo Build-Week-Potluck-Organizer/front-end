@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useState, useContext} from 'react';
-import {UserContext} from '../context/UserContext';
+import {EventContext} from '../context/EventContext';
 import {useHistory, Link} from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 

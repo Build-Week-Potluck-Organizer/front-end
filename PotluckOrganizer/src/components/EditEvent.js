@@ -1,13 +1,16 @@
 import axios from 'axios';
 import React, {useState, useContext} from 'react';
-import {UserContext} from '../context/UserContext';
+import {EventContext} from '../context/EventContext';
 import {useHistory, Link} from 'react-router-dom';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const EditEvent = () => {
     const user = {
         id: parseInt(localStorage.getItem("id")),
         username: localStorage.getItem("username")
     }
+    const {event} = useContext(EventContext)
+    console.log(event)
     const {push} = useHistory();
     const [form, setForm] = useState({
         event_name: "",
@@ -26,8 +29,8 @@ export const EditEvent = () => {
 
     const Submit = (e) => {
         e.preventDefault()
-        axios
-            .put(`/events/`, form)
+        axiosWithAuth()
+            .put(`/api/events/${event}`, form)
             .then((res) => {
                 console.log(res)
             })

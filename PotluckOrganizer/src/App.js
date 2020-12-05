@@ -8,14 +8,14 @@ import {Register} from './components/Register';
 import { Homepage } from "./components/Homepage";
 import {NewEvent} from './components/NewEvent';
 import {EditEvent} from './components/EditEvent';
-import {UserContext} from './context/UserContext';
+import {EventContext} from './context/EventContext';
 
 
 function App() {
-
+  const [event, setEvent] = useState()
   return (
         <div className='App'>
-        <UserContext.Provider value={{}}>
+        <EventContext.Provider value={{event, setEvent}}>
         <Router>
           <Header/>
           <hr></hr>
@@ -29,7 +29,7 @@ function App() {
             <PrivateRoute path='/rsvp' />
           </Switch>
         </Router>
-        </UserContext.Provider>
+        </EventContext.Provider>
       </div>
   );
 }

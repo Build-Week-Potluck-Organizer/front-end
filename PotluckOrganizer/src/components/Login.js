@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import * as yup from "yup";
-import {UserContext} from '../context/UserContext';
+import {UserContext} from '../context/EventContext';
 import {useHistory} from 'react-router-dom';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
@@ -73,6 +73,7 @@ const Login = () => {
       })
       .catch((err) => console.log(err));
   };
+
 
   return (
     <>

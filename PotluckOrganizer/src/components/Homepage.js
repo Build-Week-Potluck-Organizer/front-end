@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import {UserContext} from "../context/UserContext";
+import {EventContext} from "../context/EventContext";
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import {useHistory} from 'react-router-dom';
 
@@ -41,6 +41,7 @@ export const Homepage = () => {
       }
     const {push} = useHistory();
     const [allEvents, setAllEvents] = useState()
+    const {setEvent} = useContext(EventContext)
 
     useEffect(() => {
         axiosWithAuth()
@@ -55,6 +56,7 @@ export const Homepage = () => {
     //there is no endpoint for a user's events so I had to extract the specifics user's event from all events
 
     const Delete = (e) => {
+        //delete endpoint returns the event being deleted, not all events without the deleted item
         axiosWithAuth()
             .delete(`/api/events/${e.target.id}`)
             .then((res) => {
@@ -65,6 +67,11 @@ export const Homepage = () => {
             })
     }
 
+    const Edit = (e) => {
+        setEvent(e.target.id)
+        push('/editevent')
+    }
+
     return (
         <>
         {!localStorage.getItem("token") ? push('/login'):
@@ -73,12 +80,13 @@ export const Homepage = () => {
             <Link to='/newevent'><button>Create an event</button></Link>
             <Header3>Your Events</Header3>
                 {allEvents ? allEvents.map((el) => {
+                    //looped through all events to extract user's events
                     if (el.organizer_id === user.id) {
                         return (
-                            <Flex>
+                            <Flex key={el.event_id}>
                                 <p>{el.event_name}</p>
                                 <FlexButtons>
-                                    <Button>Edit</Button>
+                                    <Button id={el.event_id} onClick={Edit}>Edit</Button>
                                     <Button id={el.event_id} onClick={Delete}>Delete</Button>
                                 </FlexButtons>
     
