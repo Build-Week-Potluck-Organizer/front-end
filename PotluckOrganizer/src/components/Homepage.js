@@ -63,18 +63,18 @@ export const Homepage = () => {
     //1. loop through get-events to get all the event_ids
     //2. get-guest-list-by-event-id for each id and search for user's id in each guestlist
     //3. add these events to myInvites
-        useEffect(() => { 
-            allEvents.map((el) => {
-                axiosWithAuth()
-                    .get(`/api/events/${el.event_id}/guestlist`)
-                    .then((res) => {
-                        console.log(`event`, res)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                })
-            }, [allEvents])
+        // useEffect(() => { 
+        //     allEvents.map((el) => {
+        //         axiosWithAuth()
+        //             .get(`/api/events/${el.event_id}/guestlist`)
+        //             .then((res) => {
+        //                 console.log(`event`, res)
+        //             })
+        //             .catch((err) => {
+        //                 console.log(err)
+        //             })
+        //         })
+        //     }, [allEvents])
           
 
 
