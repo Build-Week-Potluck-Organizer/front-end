@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import styled from 'styled-components';
 
 const Heading = styled.div`
@@ -25,32 +25,32 @@ const Heading = styled.div`
     `;
 
 export const Header = () => {
-    
+    const {push} = useHistory()
     return (
         <Heading>
             <Title>Potluck Organizer</Title>
-                {localStorage.getItem("token") ? 
+                {localStorage.getItem("token") === null ? 
                     <NavBar>
-                        <NavLink to='/login'>
-                            <Button onClick = {() => {
-                                localStorage.clear()
-                            }}>
-                                Log out
-                            </Button>
-                        </NavLink>
-                    </NavBar> :
-                    <NavBar>
-                        <NavLink to='/login'>
-                            <Button>
-                                Login
-                            </Button>
-                        </NavLink>
-                    <NavLink to='/register'>
-                         <Button>
-                            Register
+                    <NavLink to='/login'>
+                        <Button>
+                            Login
                         </Button>
                     </NavLink>
-                </NavBar>
+                <NavLink to='/register'>
+                     <Button>
+                        Register
+                    </Button>
+                </NavLink>
+            </NavBar> :
+                    <NavBar>
+                    <NavLink to='/login'>
+                        <Button onClick = {() => {
+                            localStorage.clear()
+                        }}>
+                            Log out
+                        </Button>
+                    </NavLink>
+                </NavBar> 
                 }
         </Heading>
     )};
