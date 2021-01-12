@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext} from "react";
 import axios from "axios";
 import * as yup from "yup";
-import {UserContext} from '../context/EventContext';
+import {UserContext} from '../context/UserContext';
 import {useHistory} from 'react-router-dom';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
@@ -16,6 +16,7 @@ const formSchema = yup.object().shape({
 
 
 const Login = () => {
+  const {user, setUser} = useContext(UserContext);
   const {push} = useHistory(); 
 
   const [formState, setFormState] = useState({
@@ -63,12 +64,17 @@ const Login = () => {
   const submitForm = (e) => {
     e.preventDefault();
     axiosWithAuth()
-      .post(`https://build-week-potluck-organizer.herokuapp.com/api/auth/login`, formState)
+      .post(`/auth/login`, formState)
       .then((res) => {
         console.log(res.data)
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("id", res.data.id)
         localStorage.setItem("username", res.data.username)
+        //setting username and id to localStorage so application can hold state if refreshed while still loggedin
+        setUser({
+          id: res.data.id,
+          username: res.data.username
+        })
         push('/homepage')
       })
       .catch((err) => console.log(err));

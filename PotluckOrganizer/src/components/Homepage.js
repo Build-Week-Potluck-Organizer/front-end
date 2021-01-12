@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import {EventContext} from "../context/EventContext";
+import {UserContext} from "../context/UserContext";
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import {useHistory} from 'react-router-dom';
 
@@ -35,59 +35,91 @@ const FlexButtons = styled.div`
 `;
 
 export const Homepage = () => {
-    const user = {
-        id: parseInt(localStorage.getItem("id")),
-        username: localStorage.getItem("username")
-      }
+    const {user} = useContext(UserContext); 
     const {push} = useHistory();
-    const [allEvents, setAllEvents] = useState()
-    const [myInvites, setMyInvites] = useState()
-    const {setEvent} = useContext(EventContext)
+    const [eventsNoPrimaryKey, setEventsNoPrimaryKey] = useState([]);
+    const [userEvents, setUserEvents] = useState([]);
+    const [allEvents, setAllEvents] = useState([]);
+    const [allInvites, setAllInvites] = useState([]);
+    const [userInvites, setUserInvites] = useState([]);
 
     useEffect(() => {
-        //Getting all events.
-        //There is no endpoint for a user's events so I must extract the user's events from all events.
+        /*gets user events. Data does not include primary key for each event. Only name and description which is
+            not unique*/
         axiosWithAuth()
-            .get(`/api/events`)
+            .get(`/users/${user.id}/events`)
+            .then((res) => {
+                setEventsNoPrimaryKey(res.data)
+            })
+        /*gets all events. More data than userEvents and has both the primary key for the event_id
+            and a secondary key for the user_id.*/
+        axiosWithAuth()
+            .get(`/events`)
             .then((res) => {
                 setAllEvents(res.data)
             })
-            .catch((err) => {
-                console.log(err)
+    }, []);
+
+    /*extract the userEvents from allEvents so our list has both primary and secondary ids for the event
+            and the user*/
+       useEffect(()=> {
+            const filteredEvents = allEvents.filter((el) => {
+                return el.organizer_id === user.id
             })
+            setUserEvents(filteredEvents)
 
-    }, [])
+    /*get user invites. No endpoint to get invites by user id so we will have to loop through invites by event id
+    look for user id
+    // no endpoint to get invites by guest_id and get-events endpoint does not contain guestlist.
+    // 1. loop through get-events to get all the event_ids
+    // 2. get-guest-list-by-event-id for each id and search for user's id in each guestlist
+    // 3. add these events to myInvites
+    */
+    //first we have to find all the invites
+            allEvents.map((el) => {
+                axiosWithAuth()
+                    .get(`/events/${el.event_id}/guestlist`)
+                    .then((res) => {
+                        setAllInvites([
+                            ...allInvites,
+                            res
+                        ])
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            })
+       }, [allEvents])
 
-    //Get all events a user is invited to.
-    //no endpoint to get invites by guest_id and get-events endpoint does not contain guestlist.
-    //1. loop through get-events to get all the event_ids
-    //2. get-guest-list-by-event-id for each id and search for user's id in each guestlist
-    //3. add these events to myInvites
-        // useEffect(() => { 
-        //     allEvents.map((el) => {
-        //         axiosWithAuth()
-        //             .get(`/api/events/${el.event_id}/guestlist`)
-        //             .then((res) => {
-        //                 console.log(`event`, res)
-        //             })
-        //             .catch((err) => {
-        //                 console.log(err)
-        //             })
-        //         })
-        //     }, [allEvents])
-          
+       //filter all invites that have a guest id of user id
+       useEffect(() => {
+            const filteredInvites = allInvites.filter((el) => {
+                return el.data.guest_id === user.id
+            })
+            setUserInvites(filteredInvites)
+       }, [allInvites])
+
+    //events with no primary or secondary id
+    console.log(eventsNoPrimaryKey)
+    //all events from all users
+    console.log(allEvents)
+    //events user with primary and secondary id
+    console.log(userEvents)
+    //all invites for all users
+    console.log(allInvites)
+    //invites for user
+    console.log(userInvites)
+
 
 
     const Edit = (e) => {
-        setEvent(e.target.id)
-        push('/editevent')
+        push(`editevent/${e.target.id}`)
     }
 
     const Delete = (e) => {
         e.preventDefault()
-        //delete endpoint returns the event being deleted, not all events without the deleted item
         axiosWithAuth()
-            .delete(`/api/events/${e.target.id}`)
+            .delete(`/events/${e.target.id}`)
             .then((res) => {
                 console.log(res)
             })
@@ -103,9 +135,8 @@ export const Homepage = () => {
             <h2>Welcome, {user.username}!</h2>
             <Link to='/newevent'><button>Create an event</button></Link>
             <Header3>Your Events</Header3>
-                {allEvents ? allEvents.map((el) => {
+                {userEvents.length >= 1 ? userEvents.map((el) => {
                     //looped through all events to extract user's events
-                    if (el.organizer_id === user.id) {
                         return (
                             <Flex key={el.event_id}>
                                 <p>{el.event_name}</p>
@@ -116,7 +147,6 @@ export const Homepage = () => {
     
                             </Flex>
                         )
-                    }
                 }) : <p>You have no events.</p>}
         <Break></Break>
             <p>Your user id is {user.id}. Your friends will need this number to invite you to their events.</p>
