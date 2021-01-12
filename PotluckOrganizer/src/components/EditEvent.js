@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../context/UserContext';
 import {useHistory, Link, useParams} from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
+import {AddGuest} from './AddGuest';
 
 export const EditEvent = () => {
     const {user} = useContext(UserContext)
@@ -108,6 +109,10 @@ export const EditEvent = () => {
                 <button type="submit">Submit</button>
                 <Link to="/homepage"><button>Cancel</button></Link>
             </form>
+
+            <br></br>
+            
+            <AddGuest/>
     </>
     )
 };

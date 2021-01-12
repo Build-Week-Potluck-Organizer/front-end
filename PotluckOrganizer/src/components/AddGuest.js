@@ -9,12 +9,11 @@ export const AddGuest = () => {
     const {id} = useParams()
     const [guests, setGuests] = useState([])
 
-    //getting entire current event by id.
+    //getting event guestlist by id.
     useEffect(() => {
         axiosWithAuth()
             .get(`/events/${id}`)
             .then((res) => {
-                console.log("res", res)
                 setGuests(res.data.guestlist)
             })
             .catch((err) => {
@@ -24,10 +23,13 @@ export const AddGuest = () => {
 
     console.log("guests", guests)
 
-    const [guestForm, setGuestForm] = useState({
-              guest_id: null,
-              username: "",
-              event_id: {id},
+
+    /* users can not be added as guests to events because guest_id is an autoincrementing primary key. There are
+    no foreign keys which can point to a user. :( */
+    const [form, setForm] = useState({
+              guest_id: guests.guest_id,
+              username: guests.guest_name,
+              event_id: id,
               attending: false
             })
 
@@ -42,90 +44,21 @@ export const AddGuest = () => {
     const AddGuest = (e) => {
         e.preventDefault()
         axiosWithAuth()
-            .post(`/events/${id}/guestlist`)
+            .post(`/events/${id}/guestlist`, form)
             .then((res) => {
+                alert('Guest added successfully!')
                 console.log(res)
+            })
+            .then((err) => {
+                alert('Guest could not be added')
+                console.log(err)
             })
     }
 
-    const handleGuestChanges = (e) => {
-        e.persist();
-        setGuestForm({
-            ...guestForm,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    // const AddGuest = (e) => {
-    //     e.preventDefault()
-    //     axiosWithAuth() 
-    //         .post(`/events/${event}/guestlist`, guest)
-    //         .then((res) => {
-    //             console.log("res", res)
-    //         })
-    //         .catch((err) => {
-    //             console.log(err)
-    //         })
-    //     push('/homepage')
-    // }
-
     return (
-        <>
-                <h2>{user.username}, edit {event.event_name}:</h2>
-            <form onSubmit={EditEvent}>
-                <label htmlFor='event_name'>
-                    Event Name:
-                    <input
-                    name='event_name'
-                    id='event_name'
-                    onChange={handleChanges}
-                    placeholder={event.event_name}
-                    ></input>
-                </label>
-
-                <br></br>
-
-                <label>
-                    Description:
-                    <input type='textarea'
-                        name='description'
-                        id='description'
-                        onChange={handleChanges}
-                        placeholder={event.description}
-                    ></input>
-                </label>
-
-                <br></br>
-
-                <label>
-                    Date:
-                    <input
-                        name='date'
-                        id='date'
-                        onChange={handleChanges}
-                        placeholder={event.date}
-                    ></input>
-                </label>
-
-                <br></br>
-
-                <label>
-                    Time:
-                    <input
-                    name='time'
-                    id='time'
-                    onChange={handleChanges}
-                    placeholder={event.time}
-                    ></input>
-                </label>
-
-                <br></br>
-
-                <button type="submit">Submit</button>
-                <Link to="/homepage"><button>Cancel</button></Link>
-            </form>
-            {guests.length >= 1 ? guests.map((el) => {
-                return <p>{el.guest_id}</p>
+    <>
+             {guests.length >= 1 ? guests.map((el) => {
+                return <p>{el.guest_name}</p>
             }) : <p>You have not invited anyone to this event.</p>}
            <h2>Invite a guest:</h2>
                 <form onSubmit={AddGuest}>
@@ -134,7 +67,7 @@ export const AddGuest = () => {
                     <input
                         name='guest_id'
                         id='guest_id'
-                        onChange={handleGuestChanges}
+                        onChange={handleChanges}
                     ></input>
                 </label>
                 <br></br>
@@ -143,7 +76,7 @@ export const AddGuest = () => {
                     <input
                         name='username'
                         id='username'
-                        onChange={handleGuestChanges}
+                        onChange={handleChanges}
                     ></input>
                 </label>
                 <br></br>
